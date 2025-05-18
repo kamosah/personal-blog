@@ -1,4 +1,5 @@
-import './global.css';
+// import { Inter } from 'next/font/google';
+import { Providers } from '@/lib/components/ui/Providers';
 
 export const metadata = {
   title: 'Welcome to personal-blog',
@@ -12,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
