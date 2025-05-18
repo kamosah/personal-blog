@@ -6,11 +6,13 @@ import {
   Text,
   VStack,
   Link,
-  Tag,
   Flex,
   Alert,
+  SimpleGrid,
+  Tag,
 } from '@chakra-ui/react';
 import { getAllPosts } from '../../lib/mdx/utils';
+import Image from 'next/image';
 import { Post } from '../../lib/mdx/types';
 
 export const metadata = {
@@ -30,74 +32,100 @@ function formatDate(dateStr: string): string {
 export default function BlogIndex() {
   // Get all posts sorted by date
   const posts = getAllPosts();
+  console.log('Posts:', posts);
 
   return (
-    <Container maxW="container.md" py={8}>
-      <Heading as="h1" size="xl" mb={8}>
-        Blog Posts
+    <Box maxW="1200px" mx="auto" px={4} py={8}>
+      {/* if the posts are filtered by tags, updated the heading */}
+      {/* <Heading as="h1" mb={8} fontSize="3xl">
+        {tag ? `${tag.charAt(0).toUpperCase() + tag.slice(1)} Posts` : 'Blog'}
+      </Heading> */}
+
+      <Heading as="h1" mb={8} fontSize="3xl">
+        Blog
       </Heading>
 
-      {posts.length === 0 ? (
-        <Box textAlign="center" py={10}>
-          <Alert.Root
-            status="info"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
-            rounded="md"
-            py={6}
-          >
-            <Alert.Indicator />
-            <Alert.Content>
-              <Alert.Title mt={4} mb={1} fontSize="lg">
-                No blog posts found
-              </Alert.Title>
-              <Alert.Description maxWidth="sm">
-                Add MDX files to the content directory to get started.
-              </Alert.Description>
-            </Alert.Content>
-          </Alert.Root>
-        </Box>
-      ) : (
-        <VStack gap={8} align="stretch">
-          {posts.map((post: Post) => (
-            <Box key={post.slug} pb={6}>
-              <Heading as="h2" size="lg" mb={2}>
-                <Link
-                  as={NextLink}
-                  href={post.url}
-                  _hover={{ textDecoration: 'underline' }}
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} rowGap={8} columnGap={8}>
+        {posts.map((post) => (
+          <NextLink href={`/blog/${post.slug}`} key={post.slug} passHref>
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              transition="transform 0.2s"
+              _hover={{ transform: 'translateY(-4px)' }}
+            >
+              <Box position="relative" height="200px">
+                <Image
+                  src={post.featuredImage.url}
+                  alt={post.featuredImage.alt}
+                  fill
+                  sizes="(max-width: 768px) 100%, (max-width: 1200px) 100%, 100%"
+                  priority
+                  quality={90}
+                  style={{ objectFit: 'cover' }}
+                />
+              </Box>
+              <Box p={5}>
+                <Heading
+                  size="md"
+                  mb={2}
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
                 >
                   {post.title}
-                </Link>
-              </Heading>
-
-              <Text color="gray.600" mb={3}>
-                {formatDate(post.date)}
-              </Text>
-
-              {post.tags && post.tags.length > 0 && (
-                <Flex flexWrap="wrap" gap={2}>
+                </Heading>
+                <Text color="gray.600" fontSize="sm" mb={3}>
+                  {formatDate(post.date)} • {post.author.name}
+                </Text>
+                <Text
+                  mt={2}
+                  mb={4}
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {post.excerpt}
+                </Text>
+                <Flex gap={2}>
                   {post.tags.map((tag) => (
-                    <Tag.Root
-                      key={tag}
-                      size="md"
-                      variant="subtle"
-                      colorScheme="blue"
-                    >
+                    <Tag.Root key={tag} size="sm" colorScheme="purple">
                       <Tag.Label>{tag}</Tag.Label>
                     </Tag.Root>
                   ))}
                 </Flex>
-              )}
-
-              <Box divideX="2px" mt={4} />
+              </Box>
             </Box>
-          ))}
-        </VStack>
-      )}
-    </Container>
+          </NextLink>
+        ))}
+      </SimpleGrid>
+
+      {/* Pagination */}
+      {/* <Flex justify="center" mt={8} gap={4}>
+        {page > 1 && (
+          <Link
+            href={`/blog?page=${page - 1}${tag ? `&tag=${tag}` : ''}`}
+            rel="prev"
+          >
+            Previous
+          </Link>
+        )}
+
+        {page < totalPages && (
+          <Link
+            href={`/blog?page=${page + 1}${tag ? `&tag=${tag}` : ''}`}
+            rel="next"
+          >
+            Next
+          </Link>
+        )}
+      </Flex> */}
+    </Box>
   );
 }

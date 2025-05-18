@@ -9,7 +9,16 @@ export interface PostFrontmatter {
   title: string;
   date: string; // ISO date string
   slug: string;
-  tags?: string[];
+  author: {
+    name: string;
+    avatar: string;
+  };
+  excerpt: string;
+  tags: string[];
+  featuredImage: {
+    url: string;
+    alt: string;
+  };
 }
 
 /**
