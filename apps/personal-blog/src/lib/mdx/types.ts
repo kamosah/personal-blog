@@ -12,6 +12,10 @@ export interface PostFrontmatter {
   author: {
     name: string;
     avatar: string;
+    twitterLink: string;
+    linkedInLink: string;
+    githubLink?: string;
+    websiteLink?: string;
   };
   excerpt: string;
   tags: string[];

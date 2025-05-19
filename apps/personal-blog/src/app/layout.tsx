@@ -1,5 +1,6 @@
 // import { Inter } from 'next/font/google';
 import { Providers } from '@/lib/components/ui/Providers';
+import NavBar from '../lib/components/NavBar';
 
 export const metadata = {
   title: 'Welcome to personal-blog',
@@ -14,7 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <Providers>{children}</Providers>
+        <Providers>
+          <NavBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

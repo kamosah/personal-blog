@@ -13,21 +13,12 @@ import {
 } from '@chakra-ui/react';
 import { getAllPosts } from '../../lib/mdx/utils';
 import Image from 'next/image';
-import { Post } from '../../lib/mdx/types';
+import { formatDate } from '@/lib/utils/date';
 
 export const metadata = {
   title: 'Blog | Personal Blog',
   description: 'Read my latest blog posts',
 };
-
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
 
 export default function BlogIndex() {
   // Get all posts sorted by date
@@ -40,10 +31,6 @@ export default function BlogIndex() {
       {/* <Heading as="h1" mb={8} fontSize="3xl">
         {tag ? `${tag.charAt(0).toUpperCase() + tag.slice(1)} Posts` : 'Blog'}
       </Heading> */}
-
-      <Heading as="h1" mb={8} fontSize="3xl">
-        Blog
-      </Heading>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} rowGap={8} columnGap={8}>
         {posts.map((post) => (

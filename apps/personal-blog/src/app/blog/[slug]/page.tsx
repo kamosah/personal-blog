@@ -58,31 +58,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const mdxSource = await serializeMdx(post);
 
   return (
-    <Container maxW="container.md" py={8}>
+    <Container maxW="container.md" py={8} px={0}>
       <article>
         <header>
-          <Heading as="h1" size="xl" mb={4}>
+          {/* <Heading as="h1" size="xl" mb={4}>
             {post.title}
           </Heading>
 
           <Text color="gray.600" mb={4}>
             {formatDate(post.date)}
-          </Text>
-
-          {post.tags && post.tags.length > 0 && (
-            <Flex flexWrap="wrap" gap={2} mb={6}>
-              {post.tags.map((tag) => (
-                <Tag.Root
-                  key={tag}
-                  size="md"
-                  variant="subtle"
-                  colorScheme="blue"
-                >
-                  <Tag.Label>{tag}</Tag.Label>
-                </Tag.Root>
-              ))}
-            </Flex>
-          )}
+          </Text> */}
 
           <Box divideX="2px" mb={8} />
         </header>
@@ -91,6 +76,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Client component to render MDX */}
           <MDXContent source={mdxSource} />
         </Box>
+
+        {post.tags && post.tags.length > 0 && (
+          <Flex flexWrap="wrap" gap={2} mb={6}>
+            {post.tags.map((tag) => (
+              <Tag.Root key={tag} size="md" variant="subtle" colorScheme="blue">
+                <Tag.Label>{tag}</Tag.Label>
+              </Tag.Root>
+            ))}
+          </Flex>
+        )}
       </article>
     </Container>
   );
