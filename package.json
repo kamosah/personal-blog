@@ -1,9 +1,12 @@
 {
-  "name": "@personal-blog/source",
+  "name": "personal-blog",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nx run personal-blog:dev"
+    "dev": "nx run personal-blog:dev",
+    "test": "nx run personal-blog:test",
+    "build": "nx run personal-blog:build",
+    "lint": "nx run-many --target=lint"
   },
   "private": true,
   "dependencies": {

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Box, Container, Heading, Text, Flex, Tag } from '@chakra-ui/react';
+import { Box, Container, Flex, Tag } from '@chakra-ui/react';
 import { getPostBySlug, serializeMdx } from '../../../lib/mdx/utils';
 import MDXContent from './MDXContent';
 

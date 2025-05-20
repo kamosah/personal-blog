@@ -5,16 +5,11 @@ import {
   Box,
   Heading,
   Text,
-  ListItem,
   Code,
   Link,
   Image,
-  Table,
-  List,
-  Blockquote,
   Input,
   Textarea,
-  NativeSelect,
   Button,
 } from '@chakra-ui/react';
 
