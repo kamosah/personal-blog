@@ -11,6 +11,24 @@
         "noEmit": true,
         "skipLibCheck": true
       }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run",
+        "cwd": "apps/personal-blog"
+      },
+      "configurations": {
+        "watch": {
+          "command": "vitest watch"
+        },
+        "ui": {
+          "command": "vitest --ui"
+        },
+        "coverage": {
+          "command": "vitest run --coverage"
+        }
+      }
     }
   }
 }
