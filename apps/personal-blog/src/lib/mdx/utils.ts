@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
-import { computePostUrl, Post, PostFrontmatter, RenderedPost } from './types';
+import { computePostUrl, Post, PostFrontmatter } from './types';
 
 // Path to the content directory
 const CONTENT_PATH = path.join(process.cwd(), 'content');
@@ -16,18 +16,18 @@ export function parsePostFile(filePath: string): Post {
   try {
     // Read the file
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    
+
     // Parse frontmatter and content
     const { data, content } = matter(fileContents);
-    
+
     // Validate required fields
     if (!data.title || !data.date || !data.slug) {
       throw new Error(`Missing required frontmatter fields in ${filePath}`);
     }
-    
+
     // Type assertion for frontmatter
     const frontmatter = data as PostFrontmatter;
-    
+
     // Return post with computed URL
     return {
       ...frontmatter,
@@ -53,17 +53,18 @@ export function getAllPosts(): Post[] {
       fs.mkdirSync(CONTENT_PATH, { recursive: true });
       return [];
     }
-    
+
     // Get all MDX files
-    const fileNames = fs.readdirSync(CONTENT_PATH)
-      .filter(fileName => /\.mdx?$/.test(fileName));
-    
+    const fileNames = fs
+      .readdirSync(CONTENT_PATH)
+      .filter((fileName) => /\.mdx?$/.test(fileName));
+
     // Parse each file
-    const posts = fileNames.map(fileName => {
+    const posts = fileNames.map((fileName) => {
       const filePath = path.join(CONTENT_PATH, fileName);
       return parsePostFile(filePath);
     });
-    
+
     // Sort posts by date (newest first)
     return posts.sort((a, b) => {
       const dateA = new Date(a.date);
@@ -84,7 +85,7 @@ export function getAllPosts(): Post[] {
 export function getPostBySlug(slug: string): Post | null {
   try {
     const posts = getAllPosts();
-    return posts.find(post => post.slug === slug) || null;
+    return posts.find((post) => post.slug === slug) || null;
   } catch (error) {
     console.error(`Error getting post with slug "${slug}":`, error);
     return null;
@@ -101,13 +102,12 @@ export async function serializeMdx(post: Post): Promise<any> {
     const mdxSource = await serialize(post.content, {
       // MDX options
       parseFrontmatter: false, // Already parsed with gray-matter
-      scope: post, // Pass frontmatter data to MDX
+      scope: post as Record<string, any>, // Pass frontmatter data to MDX
     });
-    
+
     return mdxSource;
   } catch (error) {
     console.error(`Error serializing MDX for post "${post.title}":`, error);
     throw error;
   }
 }
-

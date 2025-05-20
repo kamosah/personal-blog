@@ -1,16 +1,5 @@
 import NextLink from 'next/link';
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  VStack,
-  Link,
-  Flex,
-  Alert,
-  SimpleGrid,
-  Tag,
-} from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, SimpleGrid, Tag } from '@chakra-ui/react';
 import { getAllPosts } from '../../lib/mdx/utils';
 import Image from 'next/image';
 import { formatDate } from '@/lib/utils/date';
@@ -20,10 +9,9 @@ export const metadata = {
   description: 'Read my latest blog posts',
 };
 
-export default function BlogIndex() {
+export default async function BlogIndex() {
   // Get all posts sorted by date
-  const posts = getAllPosts();
-  console.log('Posts:', posts);
+  const posts = await getAllPosts();
 
   return (
     <Box maxW="1200px" mx="auto" px={4} py={8}>

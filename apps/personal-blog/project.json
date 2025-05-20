@@ -1,0 +1,16 @@
+{
+  "name": "personal-blog",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/personal-blog",
+  "projectType": "application",
+  "targets": {
+    "typecheck": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "tsConfig": "apps/personal-blog/tsconfig.json",
+        "noEmit": true,
+        "skipLibCheck": true
+      }
+    }
+  }
+}

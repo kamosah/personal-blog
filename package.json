@@ -4,9 +4,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "nx run personal-blog:dev",
-    "test": "nx run personal-blog:test",
     "build": "nx run personal-blog:build",
-    "lint": "nx run-many --target=lint"
+    "lint": "nx run-many --target=lint",
+    "typecheck": "nx run-many --target=typecheck",
+    "e2e": "nx run-many --target=e2e"
   },
   "private": true,
   "dependencies": {

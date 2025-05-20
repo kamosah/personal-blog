@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   HStack,
   Link as ChakraLink,
   Stack,
