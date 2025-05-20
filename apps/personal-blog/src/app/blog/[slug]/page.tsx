@@ -2,13 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Box, Container, Flex, Tag } from '@chakra-ui/react';
 import { getPostBySlug, serializeMdx } from '../../../lib/mdx/utils';
-import MDXContent from './MDXContent';
-
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
-}
+import MDXContent from '../../../lib/components/MDXContent';
 
 // Function to format date
 function formatDate(dateStr: string): string {
@@ -23,8 +17,11 @@ function formatDate(dateStr: string): string {
 // Generate metadata for the post
 export async function generateMetadata({
   params,
-}: BlogPostPageProps): Promise<Metadata> {
-  const post = getPostBySlug(params.slug);
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -46,8 +43,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getPostBySlug(params.slug);
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
 
   // Handle case when post is not found
   if (!post) {

@@ -6,14 +6,15 @@ import { calculateReadingTime } from '../../../lib/utils/readingTime';
 import { Author } from '../../../lib/components/ui/Author';
 import { FeaturedImage } from '../../../lib/components/ui/FeaturedImage';
 
-export async function BlogPostLayout({
+const BlogPostLayout = async ({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
-}) {
-  const post = getPostBySlug(params.slug);
+  params: Promise<{ slug: string }>;
+}) => {
+  const routeParams = await params;
+  const post = getPostBySlug(routeParams.slug);
 
   // Handle case when post is not found
   if (!post) {
@@ -44,6 +45,6 @@ export async function BlogPostLayout({
       {/* TODO: Add sidebar table of contents and related articles */}
     </Container>
   );
-}
+};
 
 export default BlogPostLayout;

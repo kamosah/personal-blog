@@ -19,7 +19,7 @@ interface MDXContentProps {
 }
 
 // Custom components to override default MDX elements
-const components = {
+export const components = {
   // Headings
   h1: (props: any) => <Heading as="h1" size="2xl" mt={8} mb={4} {...props} />,
   h2: (props: any) => <Heading as="h2" size="xl" mt={6} mb={3} {...props} />,

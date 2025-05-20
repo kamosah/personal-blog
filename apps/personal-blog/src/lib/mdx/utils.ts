@@ -99,7 +99,22 @@ export function getPostBySlug(slug: string): Post | null {
  */
 export async function serializeMdx(post: Post): Promise<any> {
   try {
+    // Import plugins directly here
+    const remarkGfm = (await import('remark-gfm')).default;
+    const rehypeSlug = (await import('rehype-slug')).default;
+    const rehypeAutolinkHeadings = (await import('rehype-autolink-headings'))
+      .default;
+    const rehypeHighlight = (await import('rehype-highlight')).default;
+
     const mdxSource = await serialize(post.content, {
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [
+          rehypeSlug,
+          [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+          rehypeHighlight,
+        ],
+      },
       // MDX options
       parseFrontmatter: false, // Already parsed with gray-matter
       scope: post as Record<string, any>, // Pass frontmatter data to MDX
